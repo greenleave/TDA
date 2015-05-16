@@ -6,8 +6,7 @@ public class Lista<T> {
 	private int cantidadElementos;
 
 	public Lista() {
-		// this.primerNodo=this.ultimoNodo=null;
-		this.primerNodo = null;
+		this.primerNodo=this.ultimoNodo=null;
 		this.cantidadElementos = 0;
 	}
 
@@ -37,7 +36,9 @@ public class Lista<T> {
 				aux.setSig(null);
 				this.ultimoNodo = aux;
 			}
+			this.cantidadElementos--;
 		}
+		
 	}
 
 	// Inserta un elemento al comienzo
@@ -47,6 +48,7 @@ public class Lista<T> {
 			return;
 		}
 		this.primerNodo = new Nodo<T>(obj, this.primerNodo);
+		this.cantidadElementos++;
 	}
 
 	// Borra un elemento al final
@@ -59,21 +61,31 @@ public class Lista<T> {
 	// Elimina un elemento de un valor determinado.
 	public boolean remove(T obj) {
 		Nodo<T> lectura = this.primerNodo;
-		while(lectura!=null &&	lectura.getSig()!=null && lectura.getSig().compararInformacion(obj) ){
-			lectura=lectura.getSig();
+		while (lectura != null && lectura.getSig() != null
+				&& lectura.getSig().compararInformacion(obj)) {
+			lectura = lectura.getSig();
 		}
-		if(lectura==null || lectura.getSig()==null){
+		if (lectura == null || lectura.getSig() == null) {
 			return false;
 		}
-		lectura=lectura.getSig().getSig();
+		lectura = lectura.getSig().getSig();
 		return true;
 	}
 
 	// public boolean insert(posición, dato )//insertar
 
 	// Eliminar por posición
-	public T erase(int posicion) {
-		return null;
+	public boolean erase(int posicion) {
+		if (this.cantidadElementos <= posicion) {
+			return false;
+		}
+		Nodo<T> aux = this.primerNodo;
+		int i;
+		for (i = 0; i < posicion - 1; i++) {
+			aux = aux.getSig();
+		}
+		aux.setSig(aux.getSig().getSig());
+		return true;
 	}
 
 	public T buscar(T dato) {
